@@ -26,7 +26,7 @@ jQuery(function ($) {
         jQuery.post(assigns.ajax_url, {
             action: 'addToCart',
             variations: assigns.variations,
-            product_id: assigns.product_id[0]
+            product_id: assigns.product_id
         }).done(_ => location.assign(assigns.cart_url));
     })
 
