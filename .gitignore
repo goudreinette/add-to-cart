@@ -1,0 +1,4 @@
+vendor/
+stylesheets/build
+javascripts/build
+.idea
