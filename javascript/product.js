@@ -33,7 +33,7 @@ jQuery(function ($) {
     function updateGlobalQuantities() {
         var variations = assigns.variations
         $('.variation').toArray().forEach(function (variation) {
-            var quantity = $(variation).find('input').val()
+            var quantity = $(variation).find('input[name=quantity]').val()
             var variationId = $(variation).data('variation-id')
             variations.find(function (v) {
                 return v.variation_id == variationId
