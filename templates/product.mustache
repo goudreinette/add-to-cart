@@ -58,26 +58,12 @@
         /**
          * Update total
          */
-        $('.quantity input, .quantity a').click(function () {
+        $('.quantity input, .quantity a').on('click', function () {
             updateGlobalQuantities()
-
-            // Get the total price
-            var total = 0
-            var variations = $('.variation').toArray().forEach(function (variation) {
-                var quantity = $(variation).find('input').val()
-                var price = $(variation).data('display-price')
-                var variationTotal = quantity * price
-                total += variationTotal
-            })
-
-            // Display it, with a transition
-            $('.total .amount').text(total)
-
-            $('.cart-total').addClass('transition')
-            setTimeout(function () {
-                $('.cart-total').removeClass('transition')
-            }, 500)
+            updateTotal()
         })
+        updateGlobalQuantities()
+        updateTotal()
 
 
         /**
@@ -102,6 +88,26 @@
                     return v.variation_id == variationId
                 }).qty = quantity
             })
+        }
+
+        function updateTotal() {
+
+            // Get the total price
+            var total = 0
+            var variations = $('.variation').toArray().forEach(function (variation) {
+                var quantity = $(variation).find('input').val()
+                var price = $(variation).data('display-price')
+                var variationTotal = quantity * price
+                total += variationTotal
+            })
+
+            // Display it, with a transition
+            $('.total .amount').text(total)
+
+            $('.cart-total').addClass('transition')
+            setTimeout(function () {
+                $('.cart-total').removeClass('transition')
+            }, 500)
         }
     })
 </script>
