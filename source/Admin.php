@@ -7,7 +7,7 @@
  */
 class Admin
 {
-    public $meta_key = 'add_to_cart';
+    static $meta_key = 'add_to_cart';
 
     function __construct(\Utils\View $view)
     {
@@ -19,7 +19,7 @@ class Admin
     function addMetabox()
     {
         add_meta_box(
-            $this->meta_key,
+            self::$meta_key,
             'Variations',
             [$this, 'render'],
             'product',
@@ -30,10 +30,10 @@ class Admin
     function render()
     {
         global $post;
-        $enabled = get_post_meta($post->ID, $this->meta_key, true);
+        $enabled = get_post_meta($post->ID, self::$meta_key, true);
         $this->view->render('admin', [
             'enabled' => $enabled ? 'checked' : '',
-            'key'     => $this->meta_key
+            'key'     => self::$meta_key
         ]);
     }
 
@@ -41,8 +41,8 @@ class Admin
     {
         update_post_meta(
             $post_id,
-            $this->meta_key,
-            !!$_POST[$this->meta_key]
+            self::$meta_key,
+            !!$_POST[self::$meta_key]
         );
     }
 }

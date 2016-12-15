@@ -1,0 +1,107 @@
+<div class="add-to-cart-container" data-product-id="{{product_id}}">
+    <table class="variations">
+        {{#variations}}
+            <tr class="variation" data-display-price="{{display_price}}" data-variation-id="{{variation_id}}">
+                <td>
+                    <div class="quantity">
+                        <input
+                                type="number"
+                                step="1"
+                                name="quantity"
+                                min="0"
+                                max="{{max_qty}}"
+                                value="0"
+                        />
+                        <div class="qty-adjust">
+                            <a class="qty-plus" href="#">
+                                <i class="sf-icon-chevron-up"></i>
+                            </a>
+                            <a class="qty-minus" href="#">
+                                <i class="sf-icon-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="quantity_desc"></div>
+                </td>
+                <td>
+                    <h4>{{attribute}}</h4>
+                    <div>{{variation_description}}</div>
+                </td>
+                <td class="price">
+                    {{{price_html}}}
+                </td>
+            </tr>
+        {{/variations}}
+    </table>
+
+    <div class="total">
+        <button type="submit" class="addtocartbutton button">
+            <i class="sf-icon-add-to-cart"></i>
+            <span>{{add_to_cart_text}}</span>
+        </button>
+        <h3 class="cart-total">
+            <span class="text">{{total_text}}</span>
+            <span class="amount">0</span>
+        </h3>
+    </div>
+</div>
+
+<script>
+    jQuery(function ($) {
+        /**
+         * Replace Add To Cart Form
+         */
+        var addToCartContainer = $('.add-to-cart-container')
+        $('form.cart').replaceWith(addToCartContainer)
+        $('.price-container').remove()
+
+        /**
+         * Update total
+         */
+        $('.quantity input, .quantity a').click(function () {
+            updateGlobalQuantities()
+
+            // Get the total price
+            var total = 0
+            var variations = $('.variation').toArray().forEach(function (variation) {
+                var quantity = $(variation).find('input').val()
+                var price = $(variation).data('display-price')
+                var variationTotal = quantity * price
+                total += variationTotal
+            })
+
+            // Display it, with a transition
+            $('.total .amount').text(total)
+
+            $('.cart-total').addClass('transition')
+            setTimeout(function () {
+                $('.cart-total').removeClass('transition')
+            }, 500)
+        })
+
+
+        /**
+         * Add to cart AJAX request
+         */
+        $('.addtocartbutton').click(function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            jQuery.post(assigns.ajax_url, {
+                action: 'addToCart',
+                variations: assigns.variations,
+                product_id: assigns.product_id[0]
+            })//.done(_ => location.assign(assigns.cart_url[0]));
+        })
+
+        function updateGlobalQuantities() {
+            var variations = assigns.variations
+            $('.variation').toArray().forEach(function (variation) {
+                var quantity = $(variation).find('input').val()
+                var variationId = $(variation).data('variation-id')
+                variations.find(function (v) {
+                    return v.variation_id == variationId
+                }).qty = quantity
+            })
+        }
+    })
+</script>

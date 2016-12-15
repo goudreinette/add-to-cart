@@ -1,0 +1,51 @@
+/**
+ *  Total
+ */
+.add-to-cart-container h3 {
+    display: inline-block;
+    margin-left: 25px;
+}
+
+.cart-total {
+    margin-left: 25px;
+    transition: all .5s;
+}
+
+/**
+ *   Variations
+ */
+.variations {
+    width: 400px;
+}
+
+.variation {
+    min-height: 100px;
+    width: 100%;
+}
+
+/**
+ *    Single Variation
+ */
+
+.variation h4 {
+    margin: 5px 0px;
+}
+
+.variation td:first-child {
+    width: 90px;
+}
+
+.quantity, .quantity input {
+    width: 80px;
+}
+
+.variation .price {
+    width: 80px;
+}
+
+/**
+ * Transition
+ */
+.cart-total.transition {
+    transform: scale(1.3);
+}

@@ -13,18 +13,32 @@ class SingleProduct
     function enqueueScript()
     {
         global $product;
-        $active = get_post_meta($product->id, Admin::$meta_key, true);
-        $type   = $product->product_type;
+        $active     = get_post_meta($product->id, Admin::$meta_key, true);
+        $type       = $product->product_type;
+        $variations = $this->formatAttributes($product->get_available_variations());
 
         if ($active && $type == 'variable') {
             $this->view->enqueueStyle('product');
-            $this->view->render('product');
+            $this->view->render('product', [
+                'total_text'       => __('Total: €', 'add-to-cart'),
+                'add_to_cart_text' => __('Add to Cart', 'add-to-cart'),
+                'variations'       => $variations,
+            ]);
             $this->view->enqueueScript('product', [
-                'variations' => $product->get_available_variations(),
+                'cart_url'   => wc_get_cart_url(),
+                'ajax_url'   => admin_url('admin-ajax.php'),
                 'product_id' => $product->id,
-                'cart_url'   => wc_get_cart_url()
+                'variations' => $variations,
             ]);
         }
+    }
+
+    function formatAttributes($variations)
+    {
+        return array_map(function ($variation) {
+            $variation['attribute'] = array_values($variation['attributes'])[0];
+            return $variation;
+        }, $variations);
     }
 
     function addToCart()
