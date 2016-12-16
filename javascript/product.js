@@ -9,7 +9,7 @@ jQuery(function ($) {
     /**
      * Update total
      */
-    $('.quantity input, .quantity a').on('click', function () {
+    $('.quantity input, .quantity a').on('click, change', function () {
         updateGlobalQuantities()
         updateTotal()
     })
