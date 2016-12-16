@@ -56,7 +56,9 @@ jQuery(function ($) {
         }, 500)
     }
 
-    function update () {
+    function update (e) {
+        e.preventDefault()
+        e.stopPropagation()
         updateGlobalQuantities()
         updateTotal()
     }
