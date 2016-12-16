@@ -9,13 +9,8 @@ jQuery(function ($) {
     /**
      * Update total
      */
-    $('.quantity input, .quantity a').on('click, change', function () {
-        updateGlobalQuantities()
-        updateTotal()
-    })
-    updateGlobalQuantities()
-    updateTotal()
-
+    $('.quantity input, .quantity a').on('click, change', update)
+    update()
 
     /**
      * Add to cart AJAX request
@@ -59,5 +54,10 @@ jQuery(function ($) {
         setTimeout(function () {
             $('.cart-total').removeClass('transition')
         }, 500)
+    }
+
+    function update () {
+        updateGlobalQuantities()
+        updateTotal()
     }
 })
