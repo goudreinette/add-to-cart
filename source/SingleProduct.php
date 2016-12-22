@@ -1,8 +1,10 @@
 <?php namespace AddToCart;
 
+use Utils\View;
+
 class SingleProduct
 {
-    function __construct(\Utils\View $view)
+    function __construct(View $view)
     {
         add_action('woocommerce_before_single_product_summary', [$this, 'enqueueScript']);
         add_action('wp_ajax_nopriv_addToCart', [$this, 'addToCart']);
@@ -13,11 +15,12 @@ class SingleProduct
     function enqueueScript()
     {
         global $product;
-        $active     = get_post_meta($product->id, Admin::$meta_key, true);
-        $type       = $product->product_type;
-        $variations = $this->formatAttributes($product->get_available_variations());
+        $active = get_post_meta($product->id, Admin::$meta_key, true);
+        $type   = $product->product_type;
+
 
         if ($active && $type == 'variable') {
+            $variations = $this->formatAttributes($product->get_available_variations());
             $this->view->enqueueStyle('product');
             $this->view->render('product', [
                 'total_text'       => __('Total: €', 'add-to-cart'),
