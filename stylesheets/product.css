@@ -14,8 +14,8 @@
 /**
  *   Variations
  */
-table.variations {
-    width: 400px;
+.add-to-cart-container > table.variations {
+    width: 100% !important;
 }
 
 .variation {

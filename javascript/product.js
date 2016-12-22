@@ -9,8 +9,20 @@ jQuery(function ($) {
     /**
      * Update total
      */
-    $('.quantity input, .quantity a').on('click, change', update)
+    $('.quantity input, .quantity a, .quantity .plus, .quantity .minus').on('click, change, keyup', update)
     update()
+
+    /**
+     * Attach event handlers to custom quantity buttons
+     */
+    $(document).on('click, mouseup', '.quantity .plus, .quantity .minus', function () {
+        var input = $(this).parent().find('input[name=quantity]')
+        // Plus or minus?
+        var value = Number(input.val()) + ($(this).attr('class') == 'plus' ? 1 : -1)
+        input.val(value)
+        // Manually trigger update
+        update()
+    })
 
     /**
      * Add to cart AJAX request
@@ -43,7 +55,7 @@ jQuery(function ($) {
         // Get the total price
         var total = 0
         var variations = $('.variation').toArray().forEach(function (variation) {
-            var quantity = $(variation).find('input').val()
+            var quantity = $(variation).find('input[name="quantity"]').val()
             var price = $(variation).data('display-price')
             var variationTotal = quantity * price
             total += variationTotal
