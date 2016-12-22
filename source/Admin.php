@@ -39,10 +39,11 @@ class Admin
 
     function handleSave($post_id)
     {
-        update_post_meta(
-            $post_id,
-            self::$meta_key,
-            !!$_POST[self::$meta_key]
-        );
+        if ($_POST[self::$meta_key])
+            update_post_meta(
+                $post_id,
+                self::$meta_key,
+                !!$_POST[self::$meta_key]
+            );
     }
 }
