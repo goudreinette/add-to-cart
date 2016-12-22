@@ -22,7 +22,9 @@ jQuery(function ($) {
             action: 'addToCart',
             variations: assigns.variations,
             product_id: assigns.product_id
-        }).done(_ => location.assign(assigns.cart_url));
+        }).done(function () {
+            location.assign(assigns.cart_url)
+        })
     })
 
     function updateGlobalQuantities() {
@@ -56,9 +58,7 @@ jQuery(function ($) {
         }, 500)
     }
 
-    function update (e) {
-        e.preventDefault()
-        e.stopPropagation()
+    function update() {
         updateGlobalQuantities()
         updateTotal()
     }
