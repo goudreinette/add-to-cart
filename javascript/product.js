@@ -15,10 +15,14 @@ jQuery(function ($) {
     /**
      * Attach event handlers to custom quantity buttons
      */
-    $(document).on('click, mouseup', '.quantity .plus, .quantity .minus', function () {
-        var input = $(this).parent().find('input[name=quantity]')
+    $(document).on('click, mouseup', '.quantity .plus, .quantity .minus, .qty-plus, .qty-minus', function () {
+        var input = $(this).closest('.quantity').find('input[name=quantity]')
         // Plus or minus?
-        var value = Number(input.val()) + ($(this).attr('class') == 'plus' ? 1 : -1)
+        var value = Number(input.val()) + ($(this).attr('class').includes('plus') ? 1 : -1)
+
+        // Always > 0
+        if (value < 0) value = 0
+
         input.val(value)
         // Manually trigger update
         update()
